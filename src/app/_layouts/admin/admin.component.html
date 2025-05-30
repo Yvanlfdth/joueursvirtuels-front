@@ -1,0 +1,29 @@
+
+<div *ngIf="layoutAdmin; then showLayoutAdmin else showLayoutAdmin"></div>
+<ng-template #showLayoutAdmin>
+    <div class="wrapper" class="user-{{userLevel}}">
+        <div class="sidebar" [attr.data-color]="mainColor" data-image="">
+            <app-sidebar></app-sidebar>
+            <div class="sidebar-background" style="background-image: url(assets/img/full-screen-image-3.jpg)"></div>
+        </div>
+        <div class="main-panel" [attr.data-color]="mainColor" [ngClass]="{'isEaster': isEaster}">
+            <navbar-cmp></navbar-cmp>
+            <breadcrumbs-cmp *ngIf="layoutAdmin"></breadcrumbs-cmp>
+            <router-outlet></router-outlet>
+            <footer-cmp *ngIf="layoutAdmin"></footer-cmp>
+        </div>
+    </div>
+</ng-template>
+<ng-template #showLayoutCustomer>
+    <div class="wrapper">
+        <div class="sidebar" [attr.data-color]="mainColor" data-image="">
+            <app-sidebar></app-sidebar>
+            <div class="sidebar-background" style="background-image: url(assets/img/full-screen-image-3.jpg)"></div>
+        </div>
+        <div class="main-panel" [ngClass]="{'isEaster': isEaster}">
+            <navbar-cust></navbar-cust>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</ng-template>
+<!-- <fixedplugin-cmp></fixedplugin-cmp> -->

@@ -3,8 +3,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -17,6 +17,8 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+    "noImplicitAny": false,
+    "strict": false,
     "paths": {
         "@layouts/*": ["src/app/_layouts/*"],
         "@services/*": ["src/app/_services/*"],
@@ -25,7 +27,10 @@
         "@pipes/*": ["src/app/_pipes/*"],
         "@app/*": ["src/app/*"],
         "@cmp/*": ["src/app/components/*"],
-        "@env/*": ["src/environments/*"]
+        "@env/*": ["src/environments/*"],
+        "@shared/*": ["src/app/shared/*"],
+        "@imports/*": ["src/app/shared/imports/*"],
+        "@nm/*": ["node_modules/*"]
     }
   },
   "angularCompilerOptions": {

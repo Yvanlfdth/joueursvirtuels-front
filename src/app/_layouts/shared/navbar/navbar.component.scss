@@ -1,0 +1,19 @@
+.autocomplete{
+	z-index: 9999;
+	position: absolute;
+}
+
+.autocomplete li:hover {
+	background-color: #F5F1F1;
+	cursor: pointer;
+}
+
+.navbar-left {
+	float: left;
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+.navbar .btn{
+	margin-right: 0;
+}

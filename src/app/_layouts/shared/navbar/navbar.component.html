@@ -1,0 +1,295 @@
+
+<nav #navbar class="navbar navbar-default">
+    <div class="container-fluid">
+<!--         <div class="navbar-minimize">
+            <button id="minimizeSidebar" class="btn btn-danger btn-fill btn-round btn-icon">
+                <i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
+                <i class="fa fa-navicon visible-on-sidebar-mini"></i>
+            </button>
+        </div> -->
+        <div class="navbar-header">
+            <button class="navbar-left btn btn-simple btn-goBack btn-icon pull-left mt-2 mb-0" (click)="goBack()" title="{{ 'navbar.back' | translate }}">
+                <i class="fa fa-angle-left fa-2x "></i>
+            </button>
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" (click)="sidebarToggle()">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand hidden-md mt-2 mb-0">
+                {{ getTitle() | limitTo: '20' }}
+            </span>
+        </div>
+        <div class="collapse navbar-collapse">
+            <div class="" *ngIf="isMobileMenu()">
+                <form class="navbar-form navbar-left navbar-search-form mt-3 mb-3" role="search" *ngxPermissionsOnly="'search'">
+                    <div class="absoluteSearchBlock">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control input-sm" placeholder="{{ 'shared.others.search' | translate }}" (input)="search(absoluteSearch.term=$event.target.value)" (focus)="displayAutocomplete()" >
+                        </div>
+                        <ul class="list-group autocomplete col-md-6" *ngIf="displayAutocompleteResults" >
+                            <li class="list-group-item" *ngIf="notResultFound">
+                                <i class="text-warning fa fa-exclamation-triangle"></i>
+                                {{ 'navbar.search_no_result' | translate }}
+                            </li>
+                            <li class="list-group-item" *ngIf="searchLoading">
+                                <i class="text-primary fa fa-spinner fa-spin"></i>
+                                {{ 'navbar.search_loading' | translate }}
+                            </li>
+                            <ng-container *ngIf="absoluteSearch?.result?.companies" >
+                                <li *ngFor="let result of absoluteSearch?.result?.companies" class="list-group-item" (click)="goToResult(result.id, 'companies')" >
+                                    <strong>
+                                        {{result?.name}}
+                                    </strong>
+                                    <span *ngIf="result.email">
+                                        <span class="text-muted">
+                                            {{result.email}}
+                                        </span>
+                                    </span>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.company' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.projects" >
+                                <li *ngFor="let result of absoluteSearch?.result?.projects" class="list-group-item" (click)="goToResult(result.id, 'projects')" >
+                                    <strong>{{result?.name}}</strong>
+                                    <span class="pull-right text-muted">
+                                        {{ term("project", "projet", {concordance: "singular", upperCase: "none"}) }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.users" >
+                                <li *ngFor="let result of absoluteSearch?.result?.users" class="list-group-item" (click)="goToResult(result.id, 'users')" >
+                                    <strong>
+                                        {{result?.name}}
+                                    </strong>
+                                    <span *ngIf="result.firstname">
+                                        <strong>
+                                            {{result.firstname}}
+                                        </strong>
+                                    </span>
+                                    <span *ngIf="result.initials">
+                                        ({{result.initials}})
+                                    </span>
+                                    <span *ngIf="result.email">
+                                        <span class="text-muted">
+                                            {{result.email}}
+                                        </span>
+                                    </span>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.user' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.addresses" >
+                                <ng-container  *ngFor="let result of absoluteSearch?.result?.addresses">
+                                    <li *ngIf="result?.full_address" class="list-group-item" (click)="goToResult(result.addressable_id, 'addresses')" >
+                                        <strong>{{result?.full_address}}
+                                        </strong>
+
+                                        <span class="pull-right text-muted">
+                                            {{ 'navbar.address' | translate }}
+                                        </span>
+                                    </li>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.tickets" >
+                                <li *ngFor="let result of absoluteSearch?.result?.tickets" class="list-group-item" (click)="goToResult(result.ticket_number, 'tickets')" >
+                                    <strong>
+                                        #{{result.ticket_number}}
+                                    </strong>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.address' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.services" >
+                                <li *ngFor="let result of absoluteSearch?.result?.services" class="list-group-item" (click)="goToResult(null, 'services')" >
+                                    <strong>
+                                        {{result.name}}
+                                    </strong>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.service' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.stocks" >
+                                <li *ngFor="let result of absoluteSearch?.result?.stocks" class="list-group-item" (click)="goToResult(result.id, 'stocks')" >
+                                    <strong>
+                                        {{result.label}}
+                                    </strong>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.product' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.documents" >
+                                <li *ngFor="let result of absoluteSearch?.result?.documents" class="list-group-item" (click)="goToResult(result.doc_number, 'documents')" >
+                                    <strong>
+                                        {{result.doc_number}}
+                                    </strong>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.document' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="absoluteSearch?.result?.documentsIn" >
+                                <li *ngFor="let result of absoluteSearch?.result?.documentsIn" class="list-group-item" (click)="goToResult(result.id, 'documentsIn')" >
+                                    <strong>
+                                        {{result.invoice_number}}
+                                    </strong>
+                                    <span class="pull-right text-muted">
+                                        {{ 'navbar.document' | translate }}
+                                    </span>
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <ng-container *ngIf="isNotCutomer">
+                        <li *ngxPermissionsOnly="'getMandate'">
+                            <app-mandate-checker [ngClass]="'btn-group'"></app-mandate-checker>
+                        </li>
+
+                        <li *ngxPermissionsOnly="'importExport'">
+                            <app-projects-no-flight [ngClass]="'btn-group'"></app-projects-no-flight>
+                        </li>
+
+                        <li>
+                            <div [ngClass]="'btn-group'">
+                                <a [routerLink]="['/notifications']" class="btn btn-xs pl-2" type="button" [ngClass]="{'btn-success': !notifNumber, 'btn-primary': notifNumber >= 1 && notifNumber <= 3, 'btn-warning': notifNumber >= 4 && notifNumber <= 9, 'btn-danger': notifNumber >= 10}">
+                                    <span class="fa fa-bell"></span> <span class="badge">{{ notifNumber || '' }}</span>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="btn-group">
+                                <app-cmr-add-modal #cmrAdd ></app-cmr-add-modal>
+                                <app-opportunity-modal-add #opportunityAdd></app-opportunity-modal-add>
+                            </div>
+                        </li>
+                        <li class="dropdown dropdown-with-icons">
+                            <a class="dropdown-toggle mb-0" href="#" data-toggle="dropdown">
+                                <span class="fa fa-plus"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-with-icons">
+                                <li>
+                                    <app-quick-action class="quick-action" [inline]="true" [cmr]="cmrAdd" [opportunity]="opportunityAdd"></app-quick-action>
+                                </li>
+                            </ul>
+                        </li>
+                    </ng-container>
+
+                    <li class="dropdown dropdown-with-icons">
+                        <a href="#" class="dropdown-toggle mb-0" data-toggle="dropdown">
+                            <i class="fa fa-list"></i>
+                            <p class="hidden-md hidden-lg">
+                                More
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <ul class="dropdown-menu dropdown-with-icons">
+
+                          <li role="separator" class="divider"></li>
+                            <ng-container *ngIf="isNotCutomer">
+                                <li *ngxPermissionsOnly="['getProjectPiquerayAmounts', 'getProjectPiquerayLabels', 'getProjectPiquerayPriceDoors', 'getProjectPiquerayProducts', 'getProjectPiquerayTypes']">
+                                    <a routerLinkActive="active" [routerLink]="['/settings/piqueray']">
+                                        <i class="fa fa-wrench"></i> {{ 'navbar.param_piqueray' | translate }}
+                                    </a>
+                                </li>
+                                <li *ngxPermissionsOnly="['cudSettings', 'cudOption', 'cudTechno', 'getRoles', 'getVatRates', 'getStatus', 'cudHolidayTypes', 'getExchangeRate', 'importExport']">
+                                    <a routerLinkActive="active" [routerLink]="['/settings/edit']">
+                                        <i class="fa fa-wrench"></i> {{ 'navbar.param_software' | translate }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a routerLinkActive="active" [routerLink]="['/companies', companyID ,'edit']">
+                                        <i class="fa fa-wrench"></i> {{ 'navbar.param_company' | translate }}
+                                    </a>
+                                </li>
+                                <li *ngIf="canResetDb">
+                                    <a routerLinkActive="active" [routerLink]="['/settings/reset']">
+                                        <i class="fa fa-wrench"></i> {{ 'navbar.reset_data' | translate }}
+                                    </a>
+                                </li>
+                                <li *ngIf="editAdmin">
+                                    <a routerLinkActive="active" [routerLink]="['/settings/admins']">
+                                        <i class="fa fa-wrench"></i> {{ 'navbar.manage_super_admin' | translate }}
+                                    </a>
+                                </li>
+                            </ng-container>
+
+                            <li>
+                                <a (click)="openLanguageModal()" class="btn-logout">
+                                    <p>
+                                        <img src="/assets/img/flags/{{ getFlagForLang() }}.png" class="mx-2"> {{ 'navbar.change_lang' | translate }}
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <bSwitch
+                                    [switch-on-color]="'primary'"
+                                    [(ngModel)]="isNightMode"
+                                    (ngModelChange)="switchTheme($event)">
+                                </bSwitch>
+                                <p>{{ 'navbar.night_mode' | translate }}</p>
+                            </li>
+
+                            <li>
+                                <bSwitch
+                                    [switch-on-color]="'primary'"
+                                    [(ngModel)]="isMiniSidebar"
+                                    (ngModelChange)="switchMini($event)">
+                                </bSwitch>
+                                <p>{{ 'navbar.mini' | translate }}</p>
+                            </li>
+
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a [routerLink]="['/auth/lock']">
+                                    <p><i class="fa fa-lock"></i>{{ 'navbar.lock' | translate }}</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a (click)="logout()" class="btn-logout">
+                                    <p class="text-danger"><i class="fa fa-power-off"></i>{{ 'navbar.logout' | translate }}</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div [id]="languageModalId" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{{ 'navbar.lang_choose' | translate }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4" *ngFor="let lang of langs">
+                        <div class="card cursor-ptr" (click)="setLang(lang.code)">
+                            <div class="content">
+                                <img src="/assets/img/flags/{{ lang?.flag }}.png" class="mr-3"> {{ lang?.name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
