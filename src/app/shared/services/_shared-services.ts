@@ -1,4 +1,4 @@
-export * from './_misc.service';
+export * from './_utils.service';
 export * from './api.service';
 export * from './authentication.service';
 export * from './localStorage.service';

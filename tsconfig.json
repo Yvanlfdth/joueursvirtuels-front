@@ -20,16 +20,15 @@
     "noImplicitAny": false,
     "strict": false,
     "paths": {
-        "@layouts/*": ["src/app/_layouts/*"],
-        "@services/*": ["src/app/_services/*"],
-        "@guards/*": ["src/app/_guards/*"],
-        "@utils/*": ["src/app/components/_utilities/*"],
-        "@pipes/*": ["src/app/_pipes/*"],
         "@app/*": ["src/app/*"],
-        "@cmp/*": ["src/app/components/*"],
-        "@env/*": ["src/environments/*"],
+        "@cmp/*": ["src/app/features/*"],
+        "@layouts/*": ["src/app/layouts/*"],
         "@shared/*": ["src/app/shared/*"],
-        "@imports/*": ["src/app/shared/imports/*"],
+        "@guards/*": ["src/app/shared/guards/*"],
+        "@pipes/*": ["src/app/shared/pipes/*"],
+        "@services/*": ["src/app/shared/services/*"],
+        "@ui/*": ["src/app/shared/ui/*"],
+        "@env/*": ["src/environments/*"],
         "@nm/*": ["node_modules/*"]
     }
   },

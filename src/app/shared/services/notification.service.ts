@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MiscService, ApiService, LocalStorageService } from '@services/index';
+import { UtilsService, ApiService, LocalStorageService } from '@app/shared/services/_shared-services';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +13,7 @@ export class NotificationService extends ApiService {
 
     constructor(public override http: HttpClient,
                 private localStorageService: LocalStorageService,
-                private miscService: MiscService) {
+                private utilsService: UtilsService) {
         super(http);
         let self = this;
 
@@ -39,14 +39,14 @@ export class NotificationService extends ApiService {
             super.get('/notifications/unread/count').subscribe(count => {
                 this.notificationsCountSubject.next(count);
                 if(currentCount === null && count > 0) {
-                    this.miscService.showMsg({
+                    this.utilsService.showMsg({
                         key: "NOTIFICATIONS_UNREAD",
                         status: "warning",
                         moreData: { count: count }
                     });
                 }
                 else if (currentCount !== null && currentCount < count) {
-                    this.miscService.showMsg({
+                    this.utilsService.showMsg({
                         key: "NEW_NOTIFICATIONS",
                         status: "info",
                         moreData: { count: count - currentCount }

@@ -1,0 +1,35 @@
+<div class="flex menu-user">
+    <img src="{{ settingsData?.logo_url?.value }}" />
+    <ul class="flex menu-user-main">
+		<ng-container *ngFor="let item of menuItems">
+	        <li routerLinkActive="active">
+	            <!-- Single link -->
+	            <a [routerLink]="[item.path]" (click)="hideBar()" *ngIf="item?.type === 'link'">
+	                <i class="{{ item?.icon }}"></i>
+	                <p>{{ item?.title }}</p>
+	            </a>
+	            <!-- If submenu -->
+	            <a data-toggle="collapse" href="#{{ item?.anchor }}" *ngIf="item?.type === 'parent'" data-parent="#menuParent">
+	                <i class="{{ item?.icon }}"></i>
+	                <p>{{ item?.title }}<b class="caret"></b></p>
+	            </a>
+	            <!-- Submenu items -->
+	            <div id="{{ item?.anchor }}" class="collapse" *ngIf="item?.type === 'parent'">
+	                <ul class="menu-user-secondary">
+	                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let childItem of item?.children">
+							<a *ngIf="childItem?.path?.length && childItem?.fullPath" (click)="hideBar()" [routerLink]="childItem?.path">
+								<span class="sidebar-normal">{{ childItem?.title }}</span>
+							</a>
+							<a *ngIf="childItem?.path?.length && !childItem?.fullPath" (click)="hideBar()" [routerLink]="item?.path + childItem?.path">
+		                        <span class="sidebar-normal">{{ childItem?.title }}</span>
+		                    </a>
+		                    <a *ngIf="!childItem?.path?.length" (click)="hideBar()" [routerLink]="[childItem.path]">
+		                        <span class="sidebar-normal">{{ childItem?.title }}</span>
+		                    </a>
+	                    </li>
+	                </ul>
+	            </div>
+	        </li>
+		</ng-container>
+    </ul>
+</div>

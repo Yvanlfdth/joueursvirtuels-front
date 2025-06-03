@@ -1,12 +1,12 @@
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SHARED_IMPORTS } from '@shared/shared.imports';
-import { map } from 'rxjs/operators';
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MiscService, AuthenticationService, LocalStorageService, NotificationService, SearchService, SettingService } from '@services/index';
+import { UtilsService, AuthenticationService, LocalStorageService, NotificationService, SearchService, SettingService } from '@app/shared/services/_shared-services';
 import { PageTitleService } from '@services/pageTitle.service';
 import { environment } from '@env/environment';
 import { forkJoin } from 'rxjs';
+import { LayoutsAdminMenuComponent } from "@layouts/admin/menu/menu.component";
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -16,15 +16,17 @@ var misc:any ={
 declare var $: any;
 
 @Component({
-    selector: 'navbar-cmp',
+    selector: 'app-layouts-admin-header',
     standalone: true,
-    imports: [...SHARED_IMPORTS],
+    imports: [
+        ...SHARED_IMPORTS,
+        LayoutsAdminMenuComponent
+    ],
     moduleId: module.id,
-    templateUrl: 'navbar.component.html',
-    styleUrls: ['./navbar.component.scss']
+    templateUrl: 'header.component.html'
 })
 
-export class NavbarComponent implements OnInit, AfterViewInit {
+export class LayoutsAdminHeaderComponent implements OnInit, AfterViewInit {
     private pageTitle = "";
     private toggleButton;
     public absoluteSearch: any = {};
@@ -42,7 +44,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     constructor(private router: Router,
                 private location: Location,
                 private element: ElementRef,
-                private miscService: MiscService,
+                private utilsService: UtilsService,
                 private authenticationService: AuthenticationService,
                 private localStorageService: LocalStorageService,
                 private notificationService: NotificationService,
@@ -52,7 +54,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         let permissions = JSON.parse(this.localStorageService.getLSItem('currentUserPermissions'));
-        this.editAdmin = this.miscService.inArray(permissions, "editAdmin");
+        this.editAdmin = this.utilsService.inArray(permissions, "editAdmin");
 
         if($('body').hasClass('sidebar-mini')){
             misc.sidebar_mini_active = true;

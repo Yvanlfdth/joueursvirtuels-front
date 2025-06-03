@@ -1,3 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'mdb-angular-ui-kit/assets/scss/mdb.scss' as *;
 @import '@fortawesome/fontawesome-free/css/all.css';
-@import 'mdb-angular-ui-kit/assets/scss/mdb.scss';
+
+/* MISC */
+.flex {
+    display: flex;
+}
+
+.justify-content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.align-items-center {
+    display: flex;
+    align-items: center;
+}
+
+/* SPECIFIC CLASSES */
+/* Header user */
+.menu-user {
+    height: 64px;
+}
+
+.menu-user a {
+    height: 36px;
+}
+
+.menu-user-main {
+    position: relative;
+    z-index: 9990;
+}
+
+.menu-user-secondary {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+}

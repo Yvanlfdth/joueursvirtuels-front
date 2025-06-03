@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs';
 import { environment } from '@env/environment';
 import { Globals } from '@app/app.globals';
 import { Msg } from '@app/app.msg';
-import { LocalStorageService } from './index';
+import { LocalStorageService } from './_shared-services';
 
 declare let moment: any;
 declare const $: any;
@@ -17,7 +17,7 @@ declare const $: any;
     providedIn: 'root'
 })
 // Defines global functions
-export class MiscService {
+export class UtilsService {
     public lastNotif = null;
 
     constructor(private globals: Globals,

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ApiService, LocalStorageService, UserService } from '@services/index';
+import { ApiService, LocalStorageService, UserService } from '@app/shared/services/_shared-services';
 
 @Injectable({
     providedIn: 'root'
